@@ -1,0 +1,17 @@
+# RADIUS.yml
+---
+- name: Configure RADIUS Client on MikroTik   # Descriptive name for the playbook
+  hosts: mikrotik                             # Specifies the target host group (from inventory)
+  gather_facts: no                            # Skip gathering system facts for quicker execution
+
+  tasks:                                      # List of tasks to be executed
+    - name: Add RADIUS client                 # Task to add RADIUS client on the router
+      community.mikrotik.mikrotik_radius_client:
+        hostname: "{{ inventory_hostname }}"  # Uses IP from inventory file
+        username: "{{ ansible_user }}"        # Username to log in to the MikroTik router
+        password: "{{ ansible_password }}"    # Password for the MikroTik router
+        radius_server: "35.227.71.209"        # IP address of the RADIUS server
+        secret: "testing123"                  # Shared secret for RADIUS authentication
+        service: "hotspot"                    # Service to authenticate (e.g., login, ppp, hotspot)
+        state: present                        # Ensure the RADIUS client configuration is present
+
